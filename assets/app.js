@@ -43,3 +43,5 @@ function route(){var h=location.hash.slice(1),c=document.getElementById('case'),
 function bind(r){r.querySelectorAll('.prev').forEach(function(b){b.onclick=function(){var v=b.parentNode,f=document.createElement('iframe');f.title='Pratinjau';f.loading='lazy';f.src=v.dataset.src;f.setAttribute('sandbox','allow-scripts allow-same-origin allow-forms allow-popups');v.appendChild(f);b.remove()}})}
 bind(document);addEventListener('hashchange',route);route();
 document.getElementById('th').onclick=function(){var r=document.documentElement,d=r.dataset.theme==='dark'||(!r.dataset.theme&&matchMedia('(prefers-color-scheme:dark)').matches);r.dataset.theme=d?'light':'dark'};
+
+(function(){var a=document.getElementById('cm'),t=document.getElementById('cmt');if(!a)return;var m=['calvfinka','yahoo.com'].join('@');a.href='mailto:'+m+'?subject='+encodeURIComponent('Halo dari portofolio');t.textContent=m})();
