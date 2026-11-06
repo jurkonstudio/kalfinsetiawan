@@ -143,9 +143,11 @@ h1{font-weight:700;letter-spacing:-.035em;line-height:1.06}
 /* ===== v6: header, logo & ikon sosial ===== */
 nav{padding:10px 22px}
 .brand{gap:11px;font-size:clamp(16px,4.4vw,19px);font-weight:700;letter-spacing:-.025em;line-height:1}
-.brand svg{width:36px;height:36px;border-radius:10px;flex:none;box-shadow:0 6px 16px -6px rgba(79,70,229,.55),0 0 0 1px rgba(255,255,255,.08) inset;transition:transform .25s}
+.brand svg{width:40px;height:40px;flex:none;overflow:visible;filter:drop-shadow(0 5px 8px rgba(79,70,229,.35));transition:transform .25s}
+.brand .lg-ant{transform-box:view-box;transform-origin:32px 22px;transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
 .brand b{color:var(--accent);margin-left:1px}
-@media (hover:hover){.brand:hover svg{transform:rotate(-6deg) scale(1.05)}}
+@media (hover:hover){.brand:hover svg{transform:translateY(-1px) scale(1.06)}.brand:hover .lg-ant{transform:rotate(14deg)}}
+@media (prefers-reduced-motion:reduce){.brand svg,.brand .lg-ant{transition:none}.brand:hover .lg-ant{transform:none}}
 .nr{display:flex;align-items:center;gap:14px}
 .nl{display:flex;gap:6px}
 .nl a{position:relative;padding:8px 10px!important;border-radius:8px}

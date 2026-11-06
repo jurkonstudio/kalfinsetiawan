@@ -2,7 +2,7 @@
 """Membuat ulang semua aset visual kalfinsetiawan.com: logo, wordmark, favicon, ikon, OG.
 Jalankan: python3 make_assets.py   (butuh rsvg-convert, ImageMagick `convert`, fonttools, Playwright, font Inter)"""
 import os, json, subprocess
-from icons import ICONS, icon_file, mark, mark_favicon, mark_full, mark_mono, G1, G2
+from icons import ICONS, icon_file, mark, mark_favicon, mark_full, mark_mono, mark_tile, G1, G2, YEL, AMB
 
 A = 'assets'
 os.makedirs(A + '/icons', exist_ok=True)
@@ -13,7 +13,12 @@ def w(path, txt):
 
 
 def png(svg_path, out, size):
-    subprocess.run(['rsvg-convert', '-w', str(size), '-h', str(size), svg_path, '-o', out], check=True)
+    from playwright.sync_api import sync_playwright
+    svg = open(svg_path, encoding='utf-8').read().replace('<svg ', '<svg width="%d" height="%d" ' % (size, size), 1)
+    with sync_playwright() as p:
+        b = p.chromium.launch(); pg = b.new_page(viewport={'width': size, 'height': size})
+        pg.set_content('<body style="margin:0;background:transparent">%s</body>' % svg)
+        pg.screenshot(path=out, omit_background=True, clip={'x': 0, 'y': 0, 'width': size, 'height': size}); b.close()
 
 
 # 1) Logo, favicon (SVG)
@@ -21,6 +26,7 @@ w(A + '/logo.svg', mark('k') + '\n')
 w(A + '/logo-mono.svg', mark_mono() + '\n')
 w(A + '/favicon.svg', mark_favicon() + '\n')
 w(A + '/icon-full.svg', mark_full() + '\n')
+w(A + '/icon-tile.svg', mark_tile() + '\n')
 
 # 2) Wordmark / lockup: teks diubah jadi kurva (Inter Bold) agar tampil sama di mana pun
 from fontTools.ttLib import TTFont
@@ -43,21 +49,21 @@ def text_path(text, font_path, size):
 INTER = '/usr/share/fonts/opentype/inter/Inter-Bold.otf'
 word, wd = text_path('kalfinsetiawan', INTER, 40)
 dot_x = wd + 4
-lock_w = 64 + 16 + dot_x + 12
+lock_w = 64 + 12 + dot_x + 12
 lockup = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %.1f 64" role="img" aria-label="kalfinsetiawan.">%s'
-          '<g transform="translate(80 43.5)"><path d="%s" fill="#111315"/><circle cx="%.1f" cy="-3.4" r="4.4" fill="%s"/></g></svg>\n')
+          '<g transform="translate(76 43.5)"><path d="%s" fill="#111315"/><circle cx="%.1f" cy="-3.8" r="4.6" fill="%s" stroke="%s" stroke-width="1.8"/></g></svg>\n')
 mk = mark('lk').replace(' xmlns="http://www.w3.org/2000/svg"', '').replace(' role="img" aria-label="kalfinsetiawan"', '')
 mk_inner = mk[mk.index('<defs>'):mk.rindex('</svg>')]
-w(A + '/logo-wordmark.svg', lockup % (lock_w, mk_inner, word, dot_x + 4.4, G1))
-w(A + '/logo-wordmark-light.svg', (lockup % (lock_w, mk_inner, word, dot_x + 4.4, '#a5b4fc')).replace('#111315', '#ffffff'))
+w(A + '/logo-wordmark.svg', lockup % (lock_w, mk_inner, word, dot_x + 4.6, YEL, AMB))
+w(A + '/logo-wordmark-light.svg', (lockup % (lock_w, mk_inner, word, dot_x + 4.6, YEL, AMB)).replace('#111315', '#ffffff'))
 
 # 3) PNG & ICO
 for n in (16, 32, 48):
     png(A + '/favicon.svg', '/tmp/_fav%d.png' % n, n)
 subprocess.run(['convert', '/tmp/_fav16.png', '/tmp/_fav32.png', '/tmp/_fav48.png', A + '/favicon.ico'], check=True)
 png(A + '/favicon.svg', A + '/favicon-32.png', 32)
-png(A + '/favicon.svg', A + '/icon-192.png', 192)
-png(A + '/logo.svg', A + '/icon-512.png', 512)
+png(A + '/icon-tile.svg', A + '/icon-192.png', 192)
+png(A + '/icon-tile.svg', A + '/icon-512.png', 512)
 png(A + '/icon-full.svg', A + '/apple-touch-icon.png', 180)
 png(A + '/icon-full.svg', A + '/icon-maskable-512.png', 512)
 for p in ('/tmp/_fav16.png', '/tmp/_fav32.png', '/tmp/_fav48.png'):
@@ -85,15 +91,15 @@ html = '''<!doctype html><meta charset="utf-8"><style>
 *{box-sizing:border-box;margin:0}body{width:1200px;height:630px;font-family:Inter,sans-serif;color:#fff;position:relative;overflow:hidden;
 background:radial-gradient(60%% 90%% at 100%% 0%%,rgba(236,72,153,.55),transparent 70%%),radial-gradient(70%% 90%% at 0%% 100%%,rgba(99,102,241,.55),transparent 70%%),linear-gradient(135deg,#1e1b4b,#312e81 55%%,#4c1d95)}
 .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:60px 60px;mask-image:linear-gradient(120deg,transparent 30%%,#000)}
-.in{position:absolute;left:84px;top:78px;right:84px;bottom:78px;display:flex;flex-direction:column;justify-content:space-between}
-.logo{width:132px;height:132px;filter:drop-shadow(0 18px 36px rgba(0,0,0,.35))}
-h1{font-size:104px;font-weight:700;letter-spacing:-.045em;line-height:1}h1 b{color:#f9a8d4}
+.in{position:absolute;left:84px;top:78px;bottom:78px;width:720px;display:flex;flex-direction:column;justify-content:space-between}
+.mascot{position:absolute;right:34px;top:100px;width:410px;height:410px;filter:drop-shadow(0 30px 50px rgba(0,0,0,.4))}
+.halo{position:absolute;right:-20px;top:50px;width:500px;height:500px;border-radius:50%%;background:radial-gradient(circle,rgba(255,255,255,.16),transparent 68%%)}
+h1{font-size:92px;font-weight:700;letter-spacing:-.045em;line-height:1}h1 b{color:#fde047}
 .t{font-size:34px;font-weight:600;letter-spacing:-.01em;margin-top:22px}.s{font-size:26px;color:#ddd6fe;margin-top:12px;font-weight:500}
-.ic{position:absolute;right:84px;top:78px;display:flex;gap:14px}.ic i{width:60px;height:60px;border-radius:16px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);display:grid;place-items:center}
+.ic{display:flex;gap:14px}.ic i{width:60px;height:60px;border-radius:16px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);display:grid;place-items:center}
 .ic svg{width:28px;height:28px;color:#fff;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-</style><div class="grid"></div><div class="in"><div class="logo">%s</div><div><h1>kalfinsetiawan<b>.</b></h1><div class="t">Jurkon &nbsp;·&nbsp; Boombastis &nbsp;·&nbsp; Smartphone Empire</div><div class="s">Portofolio Kalfin Agus Setiawan, Jurkon Studio</div></div></div>
-<div class="ic"><i><svg viewBox="0 0 24 24">%s</svg></i><i><svg viewBox="0 0 24 24">%s</svg></i><i><svg viewBox="0 0 24 24">%s</svg></i></div>''' % (
-    mark('og').replace(' xmlns="http://www.w3.org/2000/svg"', '').replace(' width="132" height="132"', ''), ICONS['x'], ICONS['jurkon'], ICONS['github'])
+</style><div class="grid"></div><div class="halo"></div><div class="mascot">%s</div><div class="in"><div class="ic"><i><svg viewBox="0 0 24 24">%s</svg></i><i><svg viewBox="0 0 24 24">%s</svg></i><i><svg viewBox="0 0 24 24">%s</svg></i></div><div><h1>kalfinsetiawan<b>.</b></h1><div class="t">Jurkon &nbsp;·&nbsp; Boombastis &nbsp;·&nbsp; Smartphone Empire</div><div class="s">Portofolio Kalfin Agus Setiawan, Jurkon Studio</div></div></div>''' % (
+    mark('og').replace(' xmlns=\"http://www.w3.org/2000/svg\"', '').replace(' width=\"132\" height=\"132\"', ''), ICONS['x'], ICONS['jurkon'], ICONS['github'])
 w('/tmp/_og.html', html)
 from playwright.sync_api import sync_playwright
 with sync_playwright() as p:

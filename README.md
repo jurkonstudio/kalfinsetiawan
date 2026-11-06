@@ -14,3 +14,8 @@ Ubah teks di `build.py`, lalu jalankan `python3 build.py` untuk membuat ulang HT
 - `CNAME`: kalfinsetiawan.com
 
 © 2026 Kalfin Agus Setiawan. Logo, wordmark, dan ikon adalah karya orisinal.
+
+## Logo & ikon
+Logo adalah kepala **Titik**, maskot Jurkon Studio (badan gradien indigo → pink, visor gelap, antena berujung titik kuning).
+Titik kuning di antena juga menjadi titik pada wordmark “kalfinsetiawan.”.
+Semua aset dibuat ulang dengan `python3 make_assets.py`; sumber bentuknya ada di `icons.py`.
