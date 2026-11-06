@@ -1,0 +1,45 @@
+
+var LOGO='<svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f46e5"/><stop offset="1" stop-color="#ec4899"/></linearGradient></defs><rect width="64" height="64" rx="16" fill="url(#lg)"/><path d="M22 16v32M22 33l16-14M27 31l15 17" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="45" cy="15" r="4.5" fill="#fff"/></svg>';
+var IC={chat:'<path d="M4 5h16v11H9l-5 4z"/>',bolt:'<path d="M13 3L5 14h6l-1 7 8-11h-6z"/>',phone:'<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M10 8l2 2 2-2"/>',news:'<path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/>',page:'<path d="M6 3h9l3 3v15H6zM9 11h6M9 15h6"/>'};
+var P={
+jurkon:{n:'Jurkon (Jurnal Koneksi)',k:'Media sosial · 250 karakter',c:'#7c3aed',c2:'#ec4899',i:'chat',u:'https://jurkon.my.id/',s:'Sosmed buatan orang Indonesia: menulis hanya 250 karakter, feed ada ujungnya, dan bisa menitipkan catatan untuk dirimu setahun lagi.',t:['HTML/CSS/JS','Supabase','PWA','GitHub Actions'],
+ nums:[['250','Batas karakter per tulisan'],['5','Tema tampilan'],['11+','Bahasa antarmuka'],['5','Alur otomatis di GitHub']],
+ p:'Media sosial biasanya mendorong kita menggulir tanpa henti dan menulis tanpa berpikir. Orang Indonesia butuh ruang yang lebih tenang untuk menulis dan terhubung.',
+ so:'Jurkon membatasi tulisan 250 karakter, membuat feed yang berujung, dan menambah fitur titip catatan untuk diri sendiri setahun lagi. Hasilnya terasa seperti jurnal yang bisa dibagikan.',
+ f:['Aturan pesan saling-ikuti dan notifikasi Mengikuti','Profil publik, sampul, dan pengaturan privasi','Lima tema, termasuk Kaca dan Awan','Antarmuka multibahasa (id, en, ar, ja, ko, zh, dan lainnya)','Pencadangan, uji, dan penjaga aktif lewat GitHub Actions']},
+boombastis:{n:'Boombastis',k:'Alat online gratis',c:'#0ea5e9',c2:'#6366f1',i:'bolt',u:'https://boombastis.my.id/',s:'Alat browser untuk gambar, teks, kata sandi, dan jaringan. Sebagian besar berjalan di perangkat, jadi berkas dan kata sandi tidak pernah diunggah.',t:['Static HTML','Node build script','Service worker','JSON-LD'],
+ nums:[['11+','Alat gratis'],['0','Berkas diunggah (mayoritas alat)'],['2','Bahasa halaman (id/en)'],['0','Dependensi build']],
+ p:'Banyak situs alat online meminta unggah berkas atau penuh iklan dan lambat, padahal untuk kompres gambar atau buat kata sandi data tidak perlu keluar dari perangkat.',
+ so:'Boombastis menjalankan hampir semua alat sepenuhnya di browser. Halaman dibuat oleh skrip Node tanpa dependensi, sehingga header, footer, sitemap, dan service worker selalu konsisten.',
+ f:['Image Compressor, QR Code, Password Generator, Hash, JSON, Base64','Pemeriksa IP &amp; DNS lewat API publik (satu-satunya yang online)','Katalog alat dari satu berkas data','Optimasi SEO: sitemap, hreflang, data terstruktur','Dapat dipasang sebagai PWA']},
+game:{n:'Smartphone Empire: Game',k:'Game · simulasi bisnis',c:'#0f766e',c2:'#1e3a8a',i:'phone',u:'https://smartphone-empire.my.id/game/',s:'Pimpin perusahaan ponsel dari 1 Januari 2000. Lawan Nokia, Apple, Samsung, dan puluhan rival sampai skenario 2027–2030.',t:['JavaScript','Supabase','Android','Simulasi waktu nyata'],
+ nums:[['2000','Tahun mulai permainan'],['30+','Kompetitor'],['10x','Kecepatan maksimum'],['3','Tingkat kesulitan']],
+ p:'Belum ada game yang benar-benar menceritakan bagaimana ponsel berkembang dari layar monokrom sampai lipat dan AI, sambil membiarkan pemain ikut mengubah sejarahnya.',
+ so:'Pemain menjadi CEO: merekrut tim, meneliti teknologi, merancang dan memproduksi ponsel, lalu membaca ulasan. Satu hari game berjalan 60 detik, dan peristiwa sejarah seperti kedatangan iPhone ikut mengubah pasar.',
+ f:['Riset, OS sendiri atau berlisensi, pabrik komponen','Keuangan: gaji, pajak, pinjaman, saham','Kalah jika kas negatif dua bulan berturut-turut','Profil pemain, papan peringkat, saldo Silicon','Tersedia di browser dan Android']},
+berita:{n:'Smartphone Empire: Berita',k:'Blog berita teknologi',c:'#2563eb',c2:'#06b6d4',i:'news',u:'https://smartphone-empire.my.id/',s:'Kabar, spesifikasi, rumor, dan jadwal rilis smartphone dalam bahasa Indonesia. Rumor selalu diberi label dan sumber.',t:['Artikel statis','Dashboard admin','Feed RSS','Sitemap'],
+ nums:[['ID','Bahasa Indonesia'],['RSS','Feed berlangganan'],['Auto','Build artikel otomatis'],['Terpisah','Dari game']],
+ p:'Berita ponsel berbahasa Indonesia sering bercampur antara fakta dan rumor tanpa penanda yang jelas.',
+ so:'Blog statis yang membangun artikelnya otomatis lewat GitHub Actions, dengan label tegas untuk rumor, serta dashboard admin sendiri untuk menulis dan menjadwalkan.',
+ f:['Artikel statis cepat dengan URL bersih','Dashboard editorial untuk admin','Feed RSS dan sitemap','Jadwal rilis dan tabel spesifikasi','Berdiri sendiri, terpisah dari game']},
+landing:{n:'Smartphone Empire: Landing Page',k:'Halaman statis · web.html',c:'#f59e0b',c2:'#ef4444',i:'page',u:'https://smartphone-empire.my.id/game/web.html',s:'Halaman pengantar game dengan tema terang dan gelap, dua bahasa, serta info akun dan saldo Silicon.',t:['HTML statis','ID / EN','Dark mode'],
+ nums:[['2','Bahasa (id/en)'],['2','Tema (terang/gelap)'],['0','Flash tema saat dimuat'],['1','Berkas statis']],
+ p:'Pemain baru butuh pintu masuk yang jelas sebelum masuk ke game yang kompleks.',
+ so:'web.html adalah halaman statis yang menjelaskan game, mengingat tema dan bahasa pilihan pengunjung sebelum halaman digambar, dan mengarahkan ke permainan.',
+ f:['Tema dan bahasa tersimpan tanpa berkedip','Pratinjau media sosial (Open Graph)','Informasi akun dan saldo Silicon','Tautan langsung ke game dan Android']}};
+var IMG={jurkon:"assets/img/jurkon.webp",boombastis:"assets/img/boombastis.webp",game:"assets/img/game.webp",berita:"assets/img/berita.webp",landing:"assets/img/landing.webp"};
+Object.keys(IMG).forEach(function(k){P[k].img=IMG[k]});
+var ORDER=['jurkon','boombastis','game','berita','landing'];
+function mk(){return '<div class="mk"><i></i><i></i><i></i><i></i><i></i></div>'}
+function frame(p){return '<div class="frame"><div class="bar"><i></i><i></i><i></i><u>'+p.u.replace('https://','')+'</u></div><div class="view" data-src="'+p.u+'">'+(p.img?'<img class="shot" alt="Tampilan '+p.n+'" src="'+p.img+'">':mk())+'<button class="prev">Pratinjau langsung</button></div></div>'}
+function chips(p){return p.t.map(function(x){return '<span>'+x+'</span>'}).join('')}
+function badge(p){return '<span class="k"><span class="ic"><svg viewBox="0 0 24 24">'+IC[p.i]+'</svg></span>'+p.k+'</span>'}
+document.querySelectorAll('[data-logo]').forEach(function(a){a.innerHTML=LOGO+'<span>kalfinsetiawan<b>.</b></span>'});
+document.getElementById('list').innerHTML=ORDER.map(function(id){var p=P[id];return '<section class="proj" style="--c:'+p.c+';--c2:'+p.c2+'">'+frame(p)+'<div>'+badge(p)+'<h3>'+p.n+'</h3><p>'+p.s+'</p><div class="chips">'+chips(p)+'</div><div class="btns"><a class="b p" href="#'+id+'">Studi kasus →</a><a class="b" href="'+p.u+'" target="_blank" rel="noopener">Buka situs ↗</a></div></div></section>'}).join('');
+function caseView(id){var p=P[id];return '<div style="--c:'+p.c+';--c2:'+p.c2+'"><a class="back" href="#karya">← Semua karya</a><div class="hero" style="padding-top:26px">'+badge(p)+'<h1>'+p.n+'</h1><p class="lead">'+p.s+'</p><div class="chips" style="margin-top:18px">'+chips(p)+'</div><div class="btns"><a class="b p" href="'+p.u+'" target="_blank" rel="noopener">Buka situs ↗</a></div></div>'+frame(p)+'<div class="nums">'+p.nums.map(function(n){return '<div><b>'+n[0]+'</b><span>'+n[1]+'</span></div>'}).join('')+'</div><div class="cols"><div><h3>Masalah</h3><p>'+p.p+'</p></div><div><h3>Solusi</h3><p>'+p.so+'</p></div></div><div class="cols"><div><h3>Fitur utama</h3><ul>'+p.f.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul></div><div><h3>Karya lain</h3><div class="more">'+ORDER.filter(function(x){return x!==id}).slice(0,3).map(function(x){return '<a href="#'+x+'">'+P[x].n+'<small>'+P[x].k+'</small></a>'}).join('')+'</div></div></div></div>'}
+function route(){var h=location.hash.slice(1),c=document.getElementById('case'),H=document.getElementById('home');
+ if(P[h]){H.hidden=true;c.hidden=false;c.innerHTML=caseView(h);bind(c);window.scrollTo(0,0);document.title=P[h].n+' — Kalfin Agus Setiawan'}
+ else{c.hidden=true;H.hidden=false;document.title='Kalfin Agus Setiawan — Portofolio';var e=h&&document.getElementById(h);if(e)e.scrollIntoView();else if(!h)window.scrollTo(0,0)}}
+function bind(r){r.querySelectorAll('.prev').forEach(function(b){b.onclick=function(){var v=b.parentNode,f=document.createElement('iframe');f.title='Pratinjau';f.loading='lazy';f.src=v.dataset.src;f.setAttribute('sandbox','allow-scripts allow-same-origin allow-forms allow-popups');v.appendChild(f);b.remove()}})}
+bind(document);addEventListener('hashchange',route);route();
+document.getElementById('th').onclick=function(){var r=document.documentElement,d=r.dataset.theme==='dark'||(!r.dataset.theme&&matchMedia('(prefers-color-scheme:dark)').matches);r.dataset.theme=d?'light':'dark'};
