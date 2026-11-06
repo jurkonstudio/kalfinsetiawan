@@ -135,3 +135,10 @@ h1{font-weight:700;letter-spacing:-.035em;line-height:1.06}
 .proj p,.about p,.cols p,.contact p{font-size:16px;line-height:1.65}
 @media (min-width:1100px){.lead{font-size:20px}.proj p,.about p{font-size:17px}}
 .b{font-weight:600;letter-spacing:-.005em}
+
+/* ===== v5: dua bahasa & halaman terpisah ===== */
+.lang{font-size:12px!important;font-weight:600;border:1px solid var(--line);border-radius:6px;padding:5px 9px!important;color:var(--ink)!important;letter-spacing:.04em}
+.cols h2{font-size:22px;letter-spacing:-.02em;margin:0 0 8px;font-weight:700}
+.case{padding-bottom:10px}
+.skip+.wrap,.wrap{scroll-margin-top:70px}
+#karya,#tentang,#kontak{scroll-margin-top:72px}
