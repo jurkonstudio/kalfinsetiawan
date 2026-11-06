@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
 """Pembangun situs kalfinsetiawan.com (ID + EN). Jalankan: python3 build.py"""
 import os, json
+from icons import ICONS, icon, mark_inline
 BASE = 'https://kalfinsetiawan.com'
 ORDER = ['jurkon', 'boombastis', 'game', 'news', 'landing']
 SLUG = {'id': {'jurkon': 'jurkon', 'boombastis': 'boombastis', 'game': 'game', 'news': 'berita', 'landing': 'landing'},
         'en': {'jurkon': 'jurkon', 'boombastis': 'boombastis', 'game': 'game', 'news': 'news', 'landing': 'landing'}}
-IC = {'chat': '<path d="M4 5h16v11H9l-5 4z"/>', 'bolt': '<path d="M13 3L5 14h6l-1 7 8-11h-6z"/>', 'phone': '<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M10 8l2 2 2-2"/>', 'news': '<path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/>', 'page': '<path d="M6 3h9l3 3v15H6zM9 11h6M9 15h6"/>'}
-LOGO = '<svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f46e5"/><stop offset="1" stop-color="#ec4899"/></linearGradient></defs><rect width="64" height="64" rx="16" fill="url(#lg)"/><path d="M22 16v32M22 33l16-14M27 31l15 17" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="45" cy="15" r="4.5" fill="#fff"/></svg>'
+IC = {k: ICONS[k] for k in ('chat', 'bolt', 'phone', 'news', 'page')}
+X_URL = 'https://x.com/calvf1nka'
+JURKON_URL = 'https://jurkon.my.id/@calvfinka'
+GH_URL = 'https://github.com/jurkonstudio'
+WA_URL = 'https://wa.me/6282243562960'
+SOCIAL = [('x', 'X (Twitter)', X_URL), ('jurkon', 'Jurkon', JURKON_URL), ('github', 'GitHub', GH_URL), ('whatsapp', 'WhatsApp', WA_URL)]
+LOGO = mark_inline('lg')
 P = {
  'jurkon': dict(u='https://jurkon.my.id/', c='#7c3aed', c2='#ec4899', i='chat',
   t={'id': ['HTML/CSS/JS', 'Supabase', 'PWA', 'GitHub Actions'], 'en': ['HTML/CSS/JS', 'Supabase', 'PWA', 'GitHub Actions']},
@@ -112,6 +118,9 @@ def frame(key, lang, frm):
     return '<div class="frame"><div class="bar"><i></i><i></i><i></i><u>%s</u></div><div class="view" data-src="%s"><img class="shot" alt="%s %s" src="%s" width="1200" height="630" loading="lazy"><button class="prev" type="button">%s</button></div></div>' % (p['u'].replace('https://', ''), p['u'], L['pshot'], d['n'], asset(frm, IMG[key].split('/', 1)[1]), L['prev'])
 def bdg(key, lang):
     p = P[key]; return '<span class="k"><span class="ic"><svg viewBox="0 0 24 24">%s</svg></span>%s</span>' % (IC[p['i']], p[lang]['k'])
+def socials(cls, items=None):
+    return '<span class="%s">%s</span>' % (cls, ''.join('<a class="si" href="%s" target="_blank" rel="noopener me" aria-label="%s" title="%s">%s</a>' % (u, n, n, icon(k)) for k, n, u in SOCIAL if not items or k in items))
+
 def other(lang): return 'en' if lang == 'id' else 'id'
 
 def head(lang, key, title, desc):
@@ -119,7 +128,7 @@ def head(lang, key, title, desc):
     frm = pdir(lang, key); L = T[lang]
     alt = {lang: me, other(lang): ot}
     hl = ''.join('<link rel="alternate" hreflang="%s" href="%s">' % (k, alt[k]) for k in ('id', 'en')) + '<link rel="alternate" hreflang="x-default" href="%s">' % absurl('id', key)
-    ld = {"@context": "https://schema.org", "@type": "Person", "name": "Kalfin Agus Setiawan", "url": BASE + "/", "sameAs": ["https://github.com/jurkonstudio"], "jobTitle": "Web developer", "affiliation": {"@type": "Organization", "name": "Jurkon Studio"}}
+    ld = {"@context": "https://schema.org", "@type": "Person", "name": "Kalfin Agus Setiawan", "url": BASE + "/", "sameAs": [GH_URL, X_URL, JURKON_URL], "jobTitle": "Web developer", "affiliation": {"@type": "Organization", "name": "Jurkon Studio"}}
     if key: ld = {"@context": "https://schema.org", "@type": "WebPage", "name": title, "description": desc, "inLanguage": lang, "url": me, "author": {"@type": "Person", "name": "Kalfin Agus Setiawan", "url": BASE + "/"}}
     return '''<!DOCTYPE html>
 <html lang="%s">
@@ -132,7 +141,7 @@ def head(lang, key, title, desc):
 <link rel="canonical" href="%s">
 %s
 <meta property="og:type" content="website"><meta property="og:site_name" content="Kalfin Agus Setiawan"><meta property="og:title" content="%s"><meta property="og:description" content="%s"><meta property="og:url" content="%s"><meta property="og:image" content="%s/assets/og.jpg"><meta property="og:locale" content="%s"><meta property="og:locale:alternate" content="%s"><meta name="twitter:card" content="summary_large_image">
-<link rel="icon" type="image/svg+xml" href="%s"><link rel="apple-touch-icon" href="%s">
+<link rel="icon" href="%s" sizes="32x32"><link rel="icon" type="image/svg+xml" href="%s"><link rel="apple-touch-icon" href="%s"><link rel="manifest" href="%s">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="%s">
@@ -140,12 +149,12 @@ def head(lang, key, title, desc):
 <script type="application/ld+json">%s</script>
 </head>
 <body>
-''' % (lang, title, desc, me, hl, title, desc, me, BASE, L['loc'], T[other(lang)]['loc'], asset(frm, 'favicon.svg'), asset(frm, 'apple-touch-icon.png'), asset(frm, 'style.css'), json.dumps(ld, ensure_ascii=False))
+''' % (lang, title, desc, me, hl, title, desc, me, BASE, L['loc'], T[other(lang)]['loc'], asset(frm, 'favicon.ico'), asset(frm, 'favicon.svg'), asset(frm, 'apple-touch-icon.png'), asset(frm, 'site.webmanifest'), asset(frm, 'style.css'), json.dumps(ld, ensure_ascii=False))
 
 def nav(lang, key):
     L = T[lang]; frm = pdir(lang, key); home = rel(frm, pdir(lang))
     sw = rel(frm, pdir(other(lang), key))
-    return '<a class="skip" href="#main">%s</a>\n<div class="wrap">\n<nav><a class="brand" href="%s">%s<span>kalfinsetiawan<b>.</b></span></a><div><a class="h" href="%s#karya">%s</a><a class="h" href="%s#tentang">%s</a><a href="%s#kontak">%s</a><a class="lang" lang="%s" hreflang="%s" href="%s" title="%s">%s</a><button class="t" id="th" type="button" aria-label="Theme">◐</button></div></nav>\n' % (L['skip'], home, LOGO, home, L['karya'], home, L['tentang'], home, L['kontak'], other(lang), other(lang), sw, L['other_l'], L['other'])
+    return '<a class="skip" href="#main">%s</a>\n<div class="wrap">\n<nav><a class="brand" href="%s" aria-label="kalfinsetiawan.">%s<span>kalfinsetiawan<b>.</b></span></a><div class="nr"><span class="nl"><a class="h" href="%s#karya">%s</a><a class="h" href="%s#tentang">%s</a><a class="h" href="%s#kontak">%s</a></span>%s<a class="lang" lang="%s" hreflang="%s" href="%s" title="%s">%s</a><button class="t" id="th" type="button" aria-label="Theme">%s</button></div></nav>\n' % (L['skip'], home, LOGO, home, L['karya'], home, L['tentang'], home, L['kontak'], socials('ns', ('x', 'jurkon')), other(lang), other(lang), sw, L['other_l'], L['other'], icon('theme'))
 
 def contact(lang):
     L = T[lang]
@@ -153,11 +162,12 @@ def contact(lang):
     return '''<section class="contact" id="kontak"><div><h2>%s</h2><p>%s</p></div>
 <div class="cgrid"><a class="cc" id="cm" href="#kontak" data-sub="%s"><span class="ci"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span><b>Email</b><span id="cmt">calvfinka [at] yahoo.com</span></a>
 <a class="cc" href="%s" target="_blank" rel="noopener"><span class="ci"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg></span><b>WhatsApp</b><span>0822-4356-2960</span></a>
-<a class="cc" href="https://github.com/jurkonstudio" target="_blank" rel="noopener"><span class="ci"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></span><b>GitHub</b><span>github.com/jurkonstudio</span></a></div></section>
-''' % (L['c_h'], L['c_p'], L['mailsub'], wa)
+<a class="cc" href="https://github.com/jurkonstudio" target="_blank" rel="noopener"><span class="ci"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></span><b>GitHub</b><span>github.com/jurkonstudio</span></a>
+%s</div></section>
+''' % (L['c_h'], L['c_p'], L['mailsub'], wa, socials('csoc', ('x', 'jurkon')))
 
 def foot(lang, frm):
-    return '<footer><span>%s</span><span><a href="https://github.com/jurkonstudio" target="_blank" rel="noopener">GitHub</a> · <a href="https://wa.me/6282243562960" target="_blank" rel="noopener">WhatsApp</a></span></footer>\n</div>\n<script src="%s" defer></script>\n</body>\n</html>\n' % (T[lang]['foot'], asset(frm, 'app.js'))
+    return '<footer><span>%s</span>%s</footer>\n</div>\n<script src="%s" defer></script>\n</body>\n</html>\n' % (T[lang]['foot'], socials('fsoc'), asset(frm, 'app.js'))
 
 def home(lang):
     L = T[lang]; frm = pdir(lang)
